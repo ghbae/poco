@@ -120,12 +120,13 @@ void TCPServerDispatcher::run()
 				endConnection();
 			}
 		}
-
-		FastMutex::ScopedLock lock(_mutex);
-		if (_stopped || (_currentThreads > 1 && _queue.empty()))
 		{
-			--_currentThreads;
-			break;
+			FastMutex::ScopedLock lock(_mutex);
+			if (_stopped || (_currentThreads > 1 && _queue.empty()))
+			{
+				--_currentThreads;
+				break;
+			}
 		}
 	}
 }
